@@ -66,6 +66,7 @@ public class MessageScanner extends ListenerAdapter {
                 //tipo uma assinatura/segunda informação
                 embedBuilder.setFooter("ID DO USUARIO: "+ event.getAuthor().getId());
 
+                //envia a mensagem para o canal de "logs" e apaga a mensagem do usuario
                 TextChannel CanalDeLog = event.getGuild().getTextChannelById(CANAL_DE_LOG);
                 event.getMessage().delete().queue();
 
