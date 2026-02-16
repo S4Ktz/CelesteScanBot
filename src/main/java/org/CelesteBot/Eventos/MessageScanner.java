@@ -18,26 +18,26 @@ public class MessageScanner extends ListenerAdapter {
     public MessageScanner() {
         //Mensagens que serão bloqueadas pelo "bot"
         this.mensagensBloqueadas = new ArrayList<>();
-        mensagensBloqueadas.add("gordo");
-        mensagensBloqueadas.add("preto");
-        mensagensBloqueadas.add("macaco");
-        mensagensBloqueadas.add("puta");
-        mensagensBloqueadas.add("filha da puta");
-        mensagensBloqueadas.add("gorda");
-        mensagensBloqueadas.add("imensa");
-        mensagensBloqueadas.add("imenso");
-        mensagensBloqueadas.add("escuridão");
-        mensagensBloqueadas.add("baleia");
-        mensagensBloqueadas.add("vagabunda");
-        mensagensBloqueadas.add("macaca");
-        mensagensBloqueadas.add("viado");
-        mensagensBloqueadas.add("viadinho");
-        mensagensBloqueadas.add("negresco");
-        mensagensBloqueadas.add("petróleo");
-        mensagensBloqueadas.add("vadia");
-        mensagensBloqueadas.add("Estrupadinha");
-        mensagensBloqueadas.add("Abusado");
-        mensagensBloqueadas.add("Abusada");
+        mensagensBloqueadas.add("");
+        mensagensBloqueadas.add("");
+        mensagensBloqueadas.add("");
+        mensagensBloqueadas.add("");
+        mensagensBloqueadas.add("");
+        mensagensBloqueadas.add("");
+        mensagensBloqueadas.add("");
+        mensagensBloqueadas.add("");
+        mensagensBloqueadas.add("");
+        mensagensBloqueadas.add("");
+        mensagensBloqueadas.add("");
+        mensagensBloqueadas.add("");
+        mensagensBloqueadas.add("");
+        mensagensBloqueadas.add("");
+        mensagensBloqueadas.add("");
+        mensagensBloqueadas.add("");
+        mensagensBloqueadas.add("");
+        mensagensBloqueadas.add("");
+        mensagensBloqueadas.add("");
+        mensagensBloqueadas.add("");
 
     }
 
