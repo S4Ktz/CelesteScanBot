@@ -16,6 +16,7 @@ public class MessageScanner extends ListenerAdapter {
        private final List<String> mensagensBloqueadas;
 
     public MessageScanner() {
+        //Mensagens que serão bloqueadas pelo "bot"
         this.mensagensBloqueadas = new ArrayList<>();
         mensagensBloqueadas.add("gordo");
         mensagensBloqueadas.add("preto");
@@ -34,7 +35,9 @@ public class MessageScanner extends ListenerAdapter {
         mensagensBloqueadas.add("negresco");
         mensagensBloqueadas.add("petróleo");
         mensagensBloqueadas.add("vadia");
-        mensagensBloqueadas.add("");
+        mensagensBloqueadas.add("Estrupadinha");
+        mensagensBloqueadas.add("Abusado");
+        mensagensBloqueadas.add("Abusada");
 
     }
 
@@ -51,12 +54,16 @@ public class MessageScanner extends ListenerAdapter {
             if (MensagemLida.toLowerCase().contains(palavra)){
 
                 EmbedBuilder embedBuilder = new EmbedBuilder();
+                //adiciona o titulo do embed
                 embedBuilder.setTitle("⚠ Mensagem suspeita detectada ⚠");
+                //setColor para selecionar a cor da borda da mensagem
                 embedBuilder.setColor(Color.red);
+                //addfield para adicionar campo/campos para mensagens, informações, etc.
                 embedBuilder.addField("Usuario: ", event.getAuthor().getAsMention(),true);
                 embedBuilder.addField("Canal: ",event.getChannel().getAsMention(),true);
                 embedBuilder.addField("Palavra:","||"+ palavra +"||",true );
                 embedBuilder.addField("Mensagem: ",MensagemLida,false);
+                //tipo uma assinatura/segunda informação
                 embedBuilder.setFooter("ID DO USUARIO: "+ event.getAuthor().getId());
 
                 TextChannel CanalDeLog = event.getGuild().getTextChannelById(CANAL_DE_LOG);
