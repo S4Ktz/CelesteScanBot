@@ -68,6 +68,9 @@ public class MessageScanner extends ListenerAdapter {
 
                 //envia a mensagem para o canal de "logs" e apaga a mensagem do usuario
                 TextChannel CanalDeLog = event.getGuild().getTextChannelById(CANAL_DE_LOG);
+
+
+                event.getChannel().sendMessage("** ⚠ UMA MENSAGEM NESSE CHAT FOI REPORTADA ⚠ **").queue();
                 event.getMessage().delete().queue();
 
                 if (CanalDeLog != null) {
