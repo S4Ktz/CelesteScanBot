@@ -2,6 +2,7 @@ package org.CelesteBot.Eventos;
 
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -10,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MessageScanner extends ListenerAdapter {
         //lista de mensagens que o "bot" tem que bloquear
@@ -48,7 +50,9 @@ public class MessageScanner extends ListenerAdapter {
         if (event.getAuthor().isBot()) return; //impedir o boot de ficar em um loop infinito de mensagens
 
         String MensagemLida = event.getMessage().getContentRaw();
+
         String CANAL_DE_LOG = "1473012450570801365";
+
 
         for (String palavra : mensagensBloqueadas){
             if (MensagemLida.toLowerCase().contains(palavra)){
@@ -63,6 +67,8 @@ public class MessageScanner extends ListenerAdapter {
                 embedBuilder.addField("Canal: ",event.getChannel().getAsMention(),true);
                 embedBuilder.addField("Palavra:","||"+ palavra +"||",true );
                 embedBuilder.addField("Mensagem: ",MensagemLida,false);
+                //mostrar foto de perfil do usuario
+                embedBuilder.setThumbnail(event.getAuthor().getEffectiveAvatarUrl());
                 //tipo uma assinatura/segunda informação
                 embedBuilder.setFooter("ID DO USUARIO: "+ event.getAuthor().getId());
 
@@ -70,7 +76,7 @@ public class MessageScanner extends ListenerAdapter {
                 TextChannel CanalDeLog = event.getGuild().getTextChannelById(CANAL_DE_LOG);
 
 
-                event.getChannel().sendMessage("** ⚠ UMA MENSAGEM NESSE CHAT FOI REPORTADA ⚠ **").queue();
+                event.getChannel().sendMessage("** ⚠ Uma mensagem foi deletada por violar as diretrizes da comunidade ⚠ **").queue();
                 event.getMessage().delete().queue();
 
                 if (CanalDeLog != null) {
