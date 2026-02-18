@@ -76,7 +76,7 @@ public class MessageScanner extends ListenerAdapter {
                 embedBuilder.setThumbnail(event.getAuthor().getEffectiveAvatarUrl());
                 //tipo uma assinatura/segunda informação
                 embedBuilder.setFooter("CONTAGEM DE REPORTS: "+ CONTAGEM_MSG_REPORT + " (Contagem reiniciada toda vez que o bot reinicia)");
-                
+
 
                 //envia a mensagem para o canal de "logs" e apaga a mensagem do usuario
                 TextChannel CanalDeLog = event.getGuild().getTextChannelById(CANAL_DE_LOG);
@@ -85,7 +85,14 @@ public class MessageScanner extends ListenerAdapter {
 
                 if (CanalDeLog != null) {
                     CanalDeLog.sendMessageEmbeds(embedBuilder.build()).queue();
+                    if (CONTAGEM_MSG_REPORT >= 4){
+                        event.getGuild().getTextChannelById(CANAL_DE_LOG).sendMessage("**Este usuário foi reportado "
+                                + CONTAGEM_MSG_REPORT + "x passivo de Castigo/banimento etc...**"
+                        ).queue();
+                    }
                 }
+
+
 
                 break;
             }
