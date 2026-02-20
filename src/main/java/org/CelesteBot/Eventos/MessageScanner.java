@@ -77,7 +77,7 @@ public class MessageScanner extends ListenerAdapter {
                 //mostrar foto de perfil do usuario
                 embedBuilder.setThumbnail(event.getAuthor().getEffectiveAvatarUrl());
                 //tipo uma assinatura/segunda informação
-                embedBuilder.setFooter("Este Usuário foi reportado "+ CONTAGEM_MSG_REPORT + "x");
+                embedBuilder.setFooter("Este Usuário foi reportado "+ Reports + "x");
 
 
                 //envia a mensagem para o canal de "logs" e apaga a mensagem do usuario
