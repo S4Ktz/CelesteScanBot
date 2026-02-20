@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import org.CelesteBot.CelesteScanBot;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -39,9 +40,9 @@ public class MessageScanner extends ListenerAdapter {
         mensagensBloqueadas.add("negresco");
         mensagensBloqueadas.add("petróleo");
         mensagensBloqueadas.add("vadia");
-        mensagensBloqueadas.add("Estrupadinha");
-        mensagensBloqueadas.add("Abusado");
-        mensagensBloqueadas.add("Abusada");
+        mensagensBloqueadas.add("estupradinha");
+        mensagensBloqueadas.add("abusado");
+        mensagensBloqueadas.add("abusada");
 
     }
 
@@ -52,7 +53,8 @@ public class MessageScanner extends ListenerAdapter {
         if (event.getAuthor().isBot()) return; //impedir o boot de ficar em um loop infinito de mensagens
 
         String MensagemLida = event.getMessage().getContentRaw();
-        String CANAL_DE_LOG = "1473012450570801365";
+        //Canal de Log de teste
+        //String CANAL_DE_LOG = "1473012450570801365";
 
 
 
@@ -81,7 +83,7 @@ public class MessageScanner extends ListenerAdapter {
 
 
                 //envia a mensagem para o canal de "logs" e apaga a mensagem do usuario
-                TextChannel CanalDeLog = event.getGuild().getTextChannelById(CANAL_DE_LOG);
+                TextChannel CanalDeLog = event.getGuild().getTextChannelById(CelesteScanBot.canalReportID);
                 event.getChannel().sendMessage("** ⚠ Uma mensagem foi deletada por violar as diretrizes da comunidade ⚠ **").queue();
                 event.getMessage().delete().queue();
 
@@ -92,6 +94,9 @@ public class MessageScanner extends ListenerAdapter {
                                 + CONTAGEM_MSG_REPORT + "x passivo de Castigo/banimento etc...**"
                         ).queue();
                     }*/
+                }else{
+                    //caso o canal não for definido a mensagem será enviada no canal padrão
+                    event.getChannel().sendMessageEmbeds(embedBuilder.build()).queue();
                 }
 
 
