@@ -10,38 +10,38 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Objects;
 
 public class MessageScanner extends ListenerAdapter {
         //lista de mensagens que o "bot" tem que bloquear
        private final List<String> mensagensBloqueadas;
-       public int CONTAGEM_MSG_REPORT = 0;
+       private final Map<Long,Integer> CONTAGEM_MSG_REPORT = new HashMap<>();
+
 
     public MessageScanner() {
         //Mensagens que serão bloqueadas pelo "bot"
         this.mensagensBloqueadas = new ArrayList<>();
-        mensagensBloqueadas.add("");
-        mensagensBloqueadas.add("");
-        mensagensBloqueadas.add("");
-        mensagensBloqueadas.add("");
-        mensagensBloqueadas.add("");
-        mensagensBloqueadas.add("");
-        mensagensBloqueadas.add("");
-        mensagensBloqueadas.add("");
-        mensagensBloqueadas.add("");
-        mensagensBloqueadas.add("");
-        mensagensBloqueadas.add("");
-        mensagensBloqueadas.add("");
-        mensagensBloqueadas.add("");
-        mensagensBloqueadas.add("");
-        mensagensBloqueadas.add("");
-        mensagensBloqueadas.add("");
-        mensagensBloqueadas.add("");
-        mensagensBloqueadas.add("");
-        mensagensBloqueadas.add("");
-        mensagensBloqueadas.add("");
+        mensagensBloqueadas.add("gordo");
+        mensagensBloqueadas.add("preto");
+        mensagensBloqueadas.add("macaco");
+        mensagensBloqueadas.add("macaca");
+        mensagensBloqueadas.add("puta");
+        mensagensBloqueadas.add("filha da puta");
+        mensagensBloqueadas.add("gorda");
+        mensagensBloqueadas.add("imensa");
+        mensagensBloqueadas.add("imenso");
+        mensagensBloqueadas.add("escuridão");
+        mensagensBloqueadas.add("baleia");
+        mensagensBloqueadas.add("vagabunda");
+        mensagensBloqueadas.add("viado");
+        mensagensBloqueadas.add("viadinho");
+        mensagensBloqueadas.add("negresco");
+        mensagensBloqueadas.add("petróleo");
+        mensagensBloqueadas.add("vadia");
+        mensagensBloqueadas.add("Estrupadinha");
+        mensagensBloqueadas.add("Abusado");
+        mensagensBloqueadas.add("Abusada");
 
     }
 
@@ -52,7 +52,7 @@ public class MessageScanner extends ListenerAdapter {
         if (event.getAuthor().isBot()) return; //impedir o boot de ficar em um loop infinito de mensagens
 
         String MensagemLida = event.getMessage().getContentRaw();
-
+        String Usuario = event.getAuthor().getAsMention();
         String CANAL_DE_LOG = "1473012450570801365";
 
 
@@ -68,7 +68,7 @@ public class MessageScanner extends ListenerAdapter {
                 //setColor para selecionar a cor da borda da mensagem
                 embedBuilder.setColor(Color.red);
                 //addfield para adicionar campo/campos para mensagens, informações, etc.
-                embedBuilder.addField("Usuario: ", event.getAuthor().getAsMention(),true);
+                embedBuilder.addField("Usuario: ", Usuario ,true);
                 embedBuilder.addField("Canal: ",event.getChannel().getAsMention(),true);
                 embedBuilder.addField("Palavra:","||"+ palavra +"||",true );
                 embedBuilder.addField("Mensagem: ",MensagemLida,false);
@@ -85,8 +85,8 @@ public class MessageScanner extends ListenerAdapter {
 
                 if (CanalDeLog != null) {
                     CanalDeLog.sendMessageEmbeds(embedBuilder.build()).queue();
-                    if (CONTAGEM_MSG_REPORT >= 4){
-                        event.getGuild().getTextChannelById(CANAL_DE_LOG).sendMessage("**Este usuário foi reportado "
+                    if (CONTAGEM_MSG_REPORT  >= 4){
+                        Objects.requireNonNull(event.getGuild().getTextChannelById(CANAL_DE_LOG)).sendMessage("**Este usuário foi reportado "
                                 + CONTAGEM_MSG_REPORT + "x passivo de Castigo/banimento etc...**"
                         ).queue();
                     }
