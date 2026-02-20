@@ -52,7 +52,6 @@ public class MessageScanner extends ListenerAdapter {
         if (event.getAuthor().isBot()) return; //impedir o boot de ficar em um loop infinito de mensagens
 
         String MensagemLida = event.getMessage().getContentRaw();
-        String Usuario = event.getAuthor().getAsMention();
         String CANAL_DE_LOG = "1473012450570801365";
 
 
@@ -60,7 +59,10 @@ public class MessageScanner extends ListenerAdapter {
         for (String palavra : mensagensBloqueadas){
             if (MensagemLida.toLowerCase().contains(palavra)){
 
-                CONTAGEM_MSG_REPORT++;
+                long UsuarioID = event.getAuthor().getIdLong();
+                //Adiciona Valor/reports ao Map
+                int Reports = CONTAGEM_MSG_REPORT.getOrDefault(UsuarioID,0)+1;
+                CONTAGEM_MSG_REPORT.put(UsuarioID,Reports);
 
                 EmbedBuilder embedBuilder = new EmbedBuilder();
                 //adiciona o titulo do embed
@@ -68,7 +70,7 @@ public class MessageScanner extends ListenerAdapter {
                 //setColor para selecionar a cor da borda da mensagem
                 embedBuilder.setColor(Color.red);
                 //addfield para adicionar campo/campos para mensagens, informações, etc.
-                embedBuilder.addField("Usuario: ", Usuario ,true);
+                embedBuilder.addField("Usuario: ", event.getAuthor().getAsMention() ,true);
                 embedBuilder.addField("Canal: ",event.getChannel().getAsMention(),true);
                 embedBuilder.addField("Palavra:","||"+ palavra +"||",true );
                 embedBuilder.addField("Mensagem: ",MensagemLida,false);
