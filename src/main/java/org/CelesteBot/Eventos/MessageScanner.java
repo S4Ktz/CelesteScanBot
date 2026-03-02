@@ -13,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class MessageScanner extends ListenerAdapter {
         //lista de mensagens que o "bot" tem que bloquear
@@ -52,19 +53,23 @@ public class MessageScanner extends ListenerAdapter {
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
         if (event.getAuthor().isBot()) return; //impedir o boot de ficar em um loop infinito de mensagens
 
-        String MensagemLida = event.getMessage().getContentRaw();
+        String MensagemLida = event.getMessage().getContentRaw().toLowerCase();
+        String[] PalavraDaMensagem = MensagemLida.split("\\s+");
         //Canal de Log de teste
         //String CANAL_DE_LOG = "1473012450570801365";
 
 
 
-        for (String palavra : mensagensBloqueadas){
-            if (MensagemLida.toLowerCase().contains(palavra)){
+        for (String palavra : mensagensBloqueadas) {
+
+            String regex = ".*\\b" + Pattern.quote(palavra.toLowerCase()) + "\\b.*";
+
+            if (MensagemLida.matches(regex)) {
 
                 long UsuarioID = event.getAuthor().getIdLong();
                 //Adiciona Valor/reports ao Map
-                int Reports = CONTAGEM_MSG_REPORT.getOrDefault(UsuarioID,0)+1;
-                CONTAGEM_MSG_REPORT.put(UsuarioID,Reports);
+                int Reports = CONTAGEM_MSG_REPORT.getOrDefault(UsuarioID, 0) + 1;
+                CONTAGEM_MSG_REPORT.put(UsuarioID, Reports);
 
                 EmbedBuilder embedBuilder = new EmbedBuilder();
                 //adiciona o titulo do embed
@@ -72,14 +77,14 @@ public class MessageScanner extends ListenerAdapter {
                 //setColor para selecionar a cor da borda da mensagem
                 embedBuilder.setColor(Color.red);
                 //addfield para adicionar campo/campos para mensagens, informações, etc.
-                embedBuilder.addField("Usuario: ", event.getAuthor().getAsMention() ,true);
-                embedBuilder.addField("Canal: ",event.getChannel().getAsMention(),true);
-                embedBuilder.addField("Palavra:","||"+ palavra +"||",true );
-                embedBuilder.addField("Mensagem: ",MensagemLida,false);
+                embedBuilder.addField("Usuario: ", event.getAuthor().getAsMention(), true);
+                embedBuilder.addField("Canal: ", event.getChannel().getAsMention(), true);
+                embedBuilder.addField("Palavra:", "||" + palavra + "||", true);
+                embedBuilder.addField("Mensagem: ", MensagemLida, false);
                 //mostrar foto de perfil do usuario
                 embedBuilder.setThumbnail(event.getAuthor().getEffectiveAvatarUrl());
                 //tipo uma assinatura/segunda informação
-                embedBuilder.setFooter("Este Usuário foi reportado "+ Reports + "x");
+                embedBuilder.setFooter("Este Usuário foi reportado " + Reports + "x");
 
 
                 //envia a mensagem para o canal de "logs" e apaga a mensagem do usuario
@@ -94,15 +99,15 @@ public class MessageScanner extends ListenerAdapter {
                                 + CONTAGEM_MSG_REPORT + "x passivo de Castigo/banimento etc...**"
                         ).queue();
                     }*/
-                }else{
+                } else {
                     //caso o canal não for definido a mensagem será enviada no canal padrão
                     event.getChannel().sendMessageEmbeds(embedBuilder.build()).queue();
                 }
 
 
-
                 break;
             }
+        }
         }
 
 
@@ -113,4 +118,4 @@ public class MessageScanner extends ListenerAdapter {
 
 
     }
-}
+
