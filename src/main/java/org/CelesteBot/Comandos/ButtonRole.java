@@ -21,12 +21,7 @@ public class ButtonRole extends ListenerAdapter {
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if (!event.getName().equals("cargos")) return;
 
-        EmbedBuilder embedBuilder = new EmbedBuilder();
-        embedBuilder.setTitle(" 🌌 Selecione o Cargo 🌌");
-        embedBuilder.setThumbnail("https://cdn.discordapp.com/attachments/1455731641820381334/1483133901173162115/208d3e085483d3db426593ddd51565a2.jpg?ex=69bcc755&is=69bb75d5&hm=41c84ed90a1919a839958159174866b3c3ab90d6710c9de996c3dab0ace79e54&");
-        embedBuilder.setImage("https://cdn.discordapp.com/attachments/1455731641820381334/1483133901173162115/208d3e085483d3db426593ddd51565a2.jpg?ex=69bcc755&is=69bb75d5&hm=41c84ed90a1919a839958159174866b3c3ab90d6710c9de996c3dab0ace79e54&");
-        embedBuilder.setDescription("Clique nos botões abaixo para selecionar seu cargo");
-        embedBuilder.setColor(Color.ORANGE);
+        EmbedBuilder embedBuilder = getEmbedBuilder();
 
         event.replyEmbeds(embedBuilder.build())
                 .addActionRow(
@@ -42,6 +37,17 @@ public class ButtonRole extends ListenerAdapter {
 
 
 
+    }
+
+    @NotNull
+    private static EmbedBuilder getEmbedBuilder() {
+        EmbedBuilder embedBuilder = new EmbedBuilder();
+        embedBuilder.setTitle(" 🌌 Selecione o Cargo 🌌");
+        embedBuilder.setThumbnail("https://cdn.discordapp.com/attachments/1455731641820381334/1483133901173162115/208d3e085483d3db426593ddd51565a2.jpg?ex=69bcc755&is=69bb75d5&hm=41c84ed90a1919a839958159174866b3c3ab90d6710c9de996c3dab0ace79e54&");
+        embedBuilder.setImage("https://cdn.discordapp.com/attachments/1455731641820381334/1483133901173162115/208d3e085483d3db426593ddd51565a2.jpg?ex=69bcc755&is=69bb75d5&hm=41c84ed90a1919a839958159174866b3c3ab90d6710c9de996c3dab0ace79e54&");
+        embedBuilder.setDescription("Clique nos botões abaixo para selecionar seu cargo");
+        embedBuilder.setColor(Color.ORANGE);
+        return embedBuilder;
     }
 
     @Override
@@ -62,7 +68,15 @@ public class ButtonRole extends ListenerAdapter {
 
         }
 
-        Role role = event.
+        Role role = Objects.requireNonNull(event.getGuild()).getRoleById(idCargo);
+
+        if (role == null){
+            event.reply("Erro: Cargo não encontrado ou não existe").setEphemeral(true).queue();
+            return;
+        }
+        event.getGuild().addRoleToMember(event.getUser(),role).queue();
+        event.reply("Cargo: " + "**" + role.getName() + "**" + "Adicionado com sucesso")
+                .setEphemeral(true).queue();
 
 
     }
