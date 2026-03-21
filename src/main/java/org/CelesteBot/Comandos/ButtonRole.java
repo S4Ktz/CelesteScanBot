@@ -30,10 +30,12 @@ public class ButtonRole extends ListenerAdapter {
 
         event.replyEmbeds(embedBuilder.build())
                 .addActionRow(
-                        Button.primary("cargo-teste", "Ganhar Cargo 🟢"),// ID do botão e Texto
-                        Button.secondary()
-                        Button.
-                        Button.danger("remover-cargo", "Sair 🔴")
+                        //Button.primary("cargo-teste", "Ganhar Cargo 🟢"),// ID do botão e Texto
+                        Button.primary("cargo-anúncio","Anúncio 📢"),
+                        Button.primary("cargo-evento","Evento 🎉"),
+                        Button.primary("cargo-repost","Repost 📰"),
+                        Button.primary("cargo-campeonato","Campeonato 🏆"),
+                        Button.danger("remover-cargo", "Remover cargos 🔴")
                 )
                 .setEphemeral(true) // Opcional: só quem usou o comando vê
                 .queue();
@@ -44,23 +46,24 @@ public class ButtonRole extends ListenerAdapter {
 
     @Override
     public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
-        String id = event.getComponentId();
-        Guild guild = event.getGuild();
+        String idButton = event.getComponentId();
+        String idCargo = "";
 
-        long CargoId = id.equals("cargo-teste") ? 1474484289625391177L : 1472959951046574204L;
-        Role role = Objects.requireNonNull(guild).getRoleById(CargoId);
+        switch (idButton){
+            case "cargo-anúncio" -> idCargo = "1481988042515550288";
+            case "cargo-evento" -> idCargo = "1481285092981608491";
+            case "cargo-repost" -> idCargo = "1481285210439155732";
+            case "cargo-campeonato" -> idCargo = "1481988125516496966";
+            case "remover-cargo" -> {
+                event.reply("Removendo cargo...").setEphemeral(true).queue();
+                return;
+            }
+            default -> {return;}
 
-        if (role == null){
-            event.reply("Cargo não encontrado ❌ ").setEphemeral(true).queue();
-            return;
         }
-        if (Objects.requireNonNull(event.getMember()).getRoles().contains(role)){
-            guild.removeRoleFromMember(event.getUser(),role).queue();
-            event.reply("Cargo removido: " + role.getName()).setEphemeral(true).queue();
-        }else{
-            guild.addRoleToMember(event.getUser(),role).queue();
-            event.reply("Adicionado o cargo: " + role.getName()).setEphemeral(true).queue();
-        }
+
+        Role role = event.
+
 
     }
 }
