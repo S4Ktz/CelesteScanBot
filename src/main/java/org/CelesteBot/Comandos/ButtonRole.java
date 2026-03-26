@@ -43,6 +43,8 @@ public class ButtonRole extends ListenerAdapter {
     private static EmbedBuilder getEmbedBuilder() {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setTitle(" 🌌 Selecione o Cargo 🌌");
+        embedBuilder.setDescription("Caso já tenha o cargo e caso queira remove-lo basta " +
+                "aperta no botão do cargo novamente" );
         embedBuilder.setThumbnail("https://cdn.discordapp.com/attachments/1455731641820381334/1483133901173162115/208d3e085483d3db426593ddd51565a2.jpg?ex=69bcc755&is=69bb75d5&hm=41c84ed90a1919a839958159174866b3c3ab90d6710c9de996c3dab0ace79e54&");
         embedBuilder.setImage("https://cdn.discordapp.com/attachments/1455731641820381334/1483133901173162115/208d3e085483d3db426593ddd51565a2.jpg?ex=69bcc755&is=69bb75d5&hm=41c84ed90a1919a839958159174866b3c3ab90d6710c9de996c3dab0ace79e54&");
         embedBuilder.setFooter("Clique nos botões abaixo para selecionar seu cargo");
