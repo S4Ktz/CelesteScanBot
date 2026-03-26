@@ -56,12 +56,31 @@ public class ButtonRole extends ListenerAdapter {
         String idCargo = "";
 
         switch (idButton){
-            case "cargo-anúncio" -> idCargo = "1481988042515550288";
-            case "cargo-evento" -> idCargo = "1481285092981608491";
-            case "cargo-repost" -> idCargo = "1481285210439155732";
-            case "cargo-campeonato" -> idCargo = "1481988125516496966";
+            case "cargo-anúncio" -> {
+
+               String idCargoAnuncio = "1481988042515550288";
+                Role role = Objects.requireNonNull(event.getGuild()).getRoleById(idCargoAnuncio);
+
+                if (role != null){
+                    if (Objects.requireNonNull(event.getMember()).getRoles().contains(role)){
+                        event.getGuild().removeRoleFromMember(event.getMember(),role).queue();
+                            event.reply("Cargo removido").setEphemeral(true).queue();
+
+                    }
+                }
+            }
+            case "cargo-evento" ->{
+                idCargo = "1481285092981608491";
+            }
+            case "cargo-repost" -> {
+                idCargo = "1481285210439155732";
+            }
+            case "cargo-campeonato" ->{
+                idCargo = "1481988125516496966";
+            }
             case "remover-cargo" -> {
-                event.reply("Está função estará disponível em breve").setEphemeral(true).queue();
+
+                //event.reply("Está função estará disponível em breve").setEphemeral(true).queue();
                 return;
             }
             default -> {return;}
