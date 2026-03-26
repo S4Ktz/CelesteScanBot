@@ -64,8 +64,11 @@ public class ButtonRole extends ListenerAdapter {
                 if (role != null){
                     if (Objects.requireNonNull(event.getMember()).getRoles().contains(role)){
                         event.getGuild().removeRoleFromMember(event.getMember(),role).queue();
-                            event.reply("Cargo removido").setEphemeral(true).queue();
+                            event.reply("Cargo ** Anúncio ** removido!").setEphemeral(true).queue();
 
+                    }else{
+                        event.getGuild().addRoleToMember(event.getMember(),role).queue();
+                            event.reply("Cargo ** Anúncio ** adicionado!! ").setEphemeral(true).queue();
                     }
                 }
             }
