@@ -130,13 +130,13 @@ public class ButtonRole extends ListenerAdapter {
 
         Role role = Objects.requireNonNull(event.getGuild()).getRoleById(idCargo);
 
-        if (role == null){
+        /*if (role == null){
             event.reply("Erro: Cargo não encontrado ou não existe").setEphemeral(true).queue();
             return;
         }
         event.getGuild().addRoleToMember(event.getUser(),role).queue();
         event.reply("Cargo: " + "**" + role.getName() + "**" + " Adicionado com sucesso")
-                .setEphemeral(true).queue();
+                .setEphemeral(true).queue();*/
 
 
     }
