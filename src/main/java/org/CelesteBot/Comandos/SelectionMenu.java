@@ -21,10 +21,12 @@ public class SelectionMenu extends ListenerAdapter {
 
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setTitle("**TICKET**");
-        embedBuilder.addField("**INFORMAÇÃO**","Abra um ticket para ter suporte e entrar em contato" +
+        embedBuilder.addField("**INFORMAÇÃO**","Abra um ticket para entrar em contato" +
                 " com um **suporte** ou **ADM**",false);
         embedBuilder.setImage("https://i.pinimg.com/1200x/58/a3/a6/58a3a6d80d9c9a242d7a6a241f84ba23.jpg");
         embedBuilder.setThumbnail("https://i.pinimg.com/originals/db/11/e9/db11e9023f39ec8ba622890fcbdd6d41.gif");
+        embedBuilder.setFooter(" O ticket será respondido o mais rapido possivel "
+                ,"https://i.pinimg.com/originals/98/dd/ad/98ddad0b6d4f92f873af8054d7eb3aa4.gif");
         embedBuilder.setColor(Color.WHITE);
 
 
