@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.CelesteBot.Comandos.ButtonRole;
+import org.CelesteBot.Comandos.SelectionMenu;
 import org.CelesteBot.Comandos.SetChannel;
 import org.CelesteBot.Eventos.MessageScanner;
 
@@ -45,14 +46,17 @@ public class CelesteScanBot {
         shardManager.addEventListener(new MessageScanner());
         shardManager.addEventListener(new SetChannel());
         shardManager.addEventListener(new ButtonRole());
+        shardManager.addEventListener(new SelectionMenu());
 
         //adicionar comandos
         shardManager.getShards().get(0).upsertCommand("setchannel","Seleciona o canal de reports")
                 .addOption(OptionType.CHANNEL,"canal","selecione o canal",true)
                 .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR)).queue();
 
-        shardManager.getShards().get(0).upsertCommand("cargos","Selecionar cargo")
+        shardManager.getShards().get(0).upsertCommand("cargos","Selecionar cargo").queue();
                 //.addOption(OptionType.CHANNEL,"cargos","Selecione cargo")
+                //.setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR)).queue();
+        shardManager.getShards().get(0).upsertCommand("menu-ticket","Criar o menu de ticket")
                 .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR)).queue();
 
 
