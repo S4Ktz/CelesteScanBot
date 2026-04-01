@@ -134,11 +134,9 @@ public class SelectionMenu extends ListenerAdapter {
                 .addRolePermissionOverride(event.getGuild().getPublicRole().getIdLong(),
                         null, EnumSet.of(Permission.VIEW_CHANNEL))
                 .queue(canal -> {
-                    event.getHook().sendMessage("Ticket de " + categoria + "aberto: " + canal.getAsMention())
+                    event.getHook().sendMessage("Ticket de " + categoria + " aberto: " + canal.getAsMention())
                                     .setEphemeral(true).queue();
-                    /*event.getHook.sendMessage("Ticket de " + categoria + " aberto: " + canal.getAsMention())
-                            .setEphemeral(true).queue();*/
-
+                    
                     canal.sendMessage("Olá " + event.getUser().getAsMention() + "! Aguarde o suporte para seu Ticket de " + categoria + ".")
                             .addActionRow(Button.danger("fechar-ticket", "Fechar Ticket 🔒"))
                             .queue();
