@@ -126,7 +126,7 @@ public class SelectionMenu extends ListenerAdapter {
     }
 
     private void criarCanalTicket(StringSelectInteractionEvent event, String categoria) {
-        Category categoriaTicket = Objects.requireNonNull(event.getGuild()).getCategoryById(1488270738891997194L);
+        Category categoriaTicket = Objects.requireNonNull(event.getGuild()).getCategoryById(1481263648776388699L);
         Objects.requireNonNull(event.getGuild()).createTextChannel("ticket - " + event.getUser().getEffectiveName())
                 .setParent(categoriaTicket)
                 .addMemberPermissionOverride(event.getUser().getIdLong(),
@@ -136,7 +136,7 @@ public class SelectionMenu extends ListenerAdapter {
                 .queue(canal -> {
                     event.getHook().sendMessage("Ticket de " + categoria + " aberto: " + canal.getAsMention())
                                     .setEphemeral(true).queue();
-                    
+
                     canal.sendMessage("Olá " + event.getUser().getAsMention() + "! Aguarde o suporte para seu Ticket de " + categoria + ".")
                             .addActionRow(Button.danger("fechar-ticket", "Fechar Ticket 🔒"))
                             .queue();
