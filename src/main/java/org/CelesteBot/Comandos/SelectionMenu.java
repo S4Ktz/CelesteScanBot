@@ -14,6 +14,7 @@ import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 
 
+
 import java.awt.*;
 import java.util.EnumSet;
 import java.util.Objects;
@@ -21,11 +22,11 @@ import java.util.concurrent.TimeUnit;
 
 public class SelectionMenu extends ListenerAdapter {
     String textBlock = """
-            **NÃO** crie varios ticket,espere que um dos suportes etc... respondam +
-            caso quebre isso **TODOS** seus ticket abertos serão fechados e novas tentativas +
-            serão ignoradas e caso persista em spammar será castigado ou banido\\n +
-            **NÃO** faça denúncias falsas(sem provas ex: prints), caso faça será castigado ou **BANIDO**\\n
-                                    
+            **NÃO** crie varios ticket,espere que um dos suportes etc... respondam\\s 
+            caso quebre isso **TODOS** seus ticket abertos serão fechados e novas tentativas 
+            serão ignoradas e caso persista em spammar será castigado ou banido\\n 
+            **NÃO** faça denúncias falsas(sem provas ex: prints), caso faça será castigado ou **BANIDO**\\n +
+            **CASO** tenha certeza da sua denúncia porem não tem provas(ou quer apenas comentar) utilize a opção de comentar
             """;
 
     @Override
@@ -67,12 +68,17 @@ public class SelectionMenu extends ListenerAdapter {
         embedBuilder.addField("**INFORMAÇÃO**","Abra um ticket para entrar em contato" +
                 " com um **suporte** ou **ADM**",false);
 
-        embedBuilder.addField("**LEIA COM ATENÇÃO**⚠\n",
-                "**NÃO** crie varios ticket,espere que um dos suportes etc... respondam" +
-                        "caso quebre isso **TODOS** seus ticket abertos serão fechados e novas tentativas" +
-                        "serão ignoradas e caso persista em spammar será castigado ou banido\n" +
-                        "**NÃO** faça denúncias falsas(sem provas ex: prints), caso faça será castigado ou **BANIDO**\n" +
-                        "",false);
+        embedBuilder.addField("**LEIA COM ATENÇÃO**⚠\n","""
+            
+            
+            **NÃO** crie varios ticket,espere que um dos suportes etc... respondam,caso quebre isso **TODOS** seus ticket abertos serão fechados e novas tentativas
+            serão ignoradas e caso persista em spammar será castigado ou banido
+            
+            **NÃO** faça denúncias falsas(sem provas ex: prints), caso faça será castigado ou **BANIDO**
+            
+            **CASO** tenha certeza da sua denúncia porem não tem provas(ou quer apenas comentar) utilize a opção de comentar
+            """
+                ,true);
 
 
         embedBuilder.setImage("https://i.pinimg.com/1200x/58/a3/a6/58a3a6d80d9c9a242d7a6a241f84ba23.jpg");
@@ -92,6 +98,8 @@ public class SelectionMenu extends ListenerAdapter {
     public void onStringSelectInteraction(@NotNull StringSelectInteractionEvent event){
         if (!event.getComponentId().equals("Abrir Ticket")) return;
 
+        event.editSelectMenu(event.getSelectMenu().createCopy().build()).queue();
+
        String Valor = event.getValues().getFirst();
 
         switch (Valor){
@@ -109,10 +117,11 @@ public class SelectionMenu extends ListenerAdapter {
 
     @Override
     public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
-        if (event.getComponent().equals("ticket-fechar")){
+        if (event.getComponentId().equals("fechar-ticket")){
+
             event.reply("O ticket está preste a ser fechado").queue();
 
-            event.getChannel().delete().queueAfter(5,TimeUnit.SECONDS);
+            event.getChannel().delete().queueAfter(3,TimeUnit.SECONDS);
         }
     }
 
@@ -125,8 +134,10 @@ public class SelectionMenu extends ListenerAdapter {
                 .addRolePermissionOverride(event.getGuild().getPublicRole().getIdLong(),
                         null, EnumSet.of(Permission.VIEW_CHANNEL))
                 .queue(canal -> {
-                    event.reply("Ticket de " + categoria + " aberto: " + canal.getAsMention())
-                            .setEphemeral(true).queue();
+                    event.getHook().sendMessage("Ticket de " + categoria + "aberto: " + canal.getAsMention())
+                                    .setEphemeral(true).queue();
+                    /*event.getHook.sendMessage("Ticket de " + categoria + " aberto: " + canal.getAsMention())
+                            .setEphemeral(true).queue();*/
 
                     canal.sendMessage("Olá " + event.getUser().getAsMention() + "! Aguarde o suporte para seu Ticket de " + categoria + ".")
                             .addActionRow(Button.danger("fechar-ticket", "Fechar Ticket 🔒"))
