@@ -20,6 +20,13 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class SelectionMenu extends ListenerAdapter {
+    String textBlock = """
+            **NÃO** crie varios ticket,espere que um dos suportes etc... respondam +
+            caso quebre isso **TODOS** seus ticket abertos serão fechados e novas tentativas +
+            serão ignoradas e caso persista em spammar será castigado ou banido\\n +
+            **NÃO** faça denúncias falsas(sem provas ex: prints), caso faça será castigado ou **BANIDO**\\n
+                                    
+            """;
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
@@ -53,14 +60,30 @@ public class SelectionMenu extends ListenerAdapter {
     @NotNull
     private static EmbedBuilder getEmbedBuilder() {
         EmbedBuilder embedBuilder = new EmbedBuilder();
+
+
         embedBuilder.setTitle("**TICKET**");
+
         embedBuilder.addField("**INFORMAÇÃO**","Abra um ticket para entrar em contato" +
                 " com um **suporte** ou **ADM**",false);
+
+        embedBuilder.addField("**LEIA COM ATENÇÃO**⚠\n",
+                "**NÃO** crie varios ticket,espere que um dos suportes etc... respondam" +
+                        "caso quebre isso **TODOS** seus ticket abertos serão fechados e novas tentativas" +
+                        "serão ignoradas e caso persista em spammar será castigado ou banido\n" +
+                        "**NÃO** faça denúncias falsas(sem provas ex: prints), caso faça será castigado ou **BANIDO**\n" +
+                        "",false);
+
+
         embedBuilder.setImage("https://i.pinimg.com/1200x/58/a3/a6/58a3a6d80d9c9a242d7a6a241f84ba23.jpg");
+
         embedBuilder.setThumbnail("https://i.pinimg.com/originals/db/11/e9/db11e9023f39ec8ba622890fcbdd6d41.gif");
+
         embedBuilder.setFooter(" O ticket será respondido o mais rapido possivel "
                 ,"https://i.pinimg.com/originals/98/dd/ad/98ddad0b6d4f92f873af8054d7eb3aa4.gif");
+
         embedBuilder.setColor(Color.WHITE);
+
         return embedBuilder;
     }
 
