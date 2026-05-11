@@ -74,6 +74,8 @@ public class EmbedCreate extends ListenerAdapter {
             Modal modal = Modal.create("gerador-embed","criar embed")
                     .addComponents(ActionRow.of(titulo),ActionRow.of(cor),ActionRow.of(descricao),ActionRow.of(imagem))
                     .build();
+
+            event.replyModal(modal).queue();
         }
 
 
