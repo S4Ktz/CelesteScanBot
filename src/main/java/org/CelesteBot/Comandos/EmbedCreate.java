@@ -3,6 +3,7 @@ package org.CelesteBot.Comandos;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.text.TextInput;
@@ -18,37 +19,53 @@ public class EmbedCreate extends ListenerAdapter {
 
     @Override
     public void onModalInteraction(@NotNull ModalInteractionEvent event) {
-        if (!event.getModalId().equals("gerador-embed")){
+        if (!event.getModalId().equals("modal-embed")) {
 
-            String titulo = Objects.requireNonNull(event.getValue("embed-titulo")).toString();
+            String corEscolhida = event.getModalId().split(":")[1];
 
-            String corHex = Objects.requireNonNull(event.getValue("embed-cor")).toString();
-
-            String desc = Objects.requireNonNull(event.getValue("embed-desc")).toString();
-
-            String imagemUrl = Objects.requireNonNull(event.getValue("embed-imagem")).toString();
+            String titulo = Objects.requireNonNull(event.getValue("titulo")).toString();
+            String desc = event.getValue("descricao").toString();
 
             EmbedBuilder embedBuilder = new EmbedBuilder();
             embedBuilder.setTitle(titulo);
             embedBuilder.setDescription(desc);
+            embedBuilder.setColor(Color.)
 
-            try {
-                embedBuilder.setColor(Color.decode(corHex.startsWith("#") ? corHex : "#" + corHex));
-            }catch (Exception e){
-                embedBuilder.setColor(Color.WHITE);
+
+            switch (corEscolhida){
+
+                case "roxo" -> embedBuilder.setColor(Color.magenta);
+                case "azul" -> embedBuilder.setColor(Color.blue);
+                case "vermelho" -> embedBuilder.setColor(Color.red);
+                case "verde" -> embedBuilder.setColor(Color.green);
+                case "branco" -> embedBuilder.setColor(Color.white);
+                case "preto" -> embedBuilder.setColor(Color.black);
+                case "cinza" -> embedBuilder.setColor(Color.GRAY);
+                case "cinza-escuro" -> embedBuilder.setColor(Color.darkGray);
+                
+
             }
-
-            if (imagemUrl != null && imagemUrl.startsWith("http")){
-                embedBuilder.setImage(imagemUrl);
-            }
-
-            event.replyEmbeds(embedBuilder.build()).queue();
-
+        }
     }
-    }
-
 
     @Override
+    public void onStringSelectInteraction(@NotNull StringSelectInteractionEvent event) {
+        if (!event.getComponentId().equals("menu-cores"))
+            return;
+
+        String corEscolhida = event.getValues().get(0);
+
+        TextInput titulo = TextInput.create("embed-titulo", "titulo", TextInputStyle.SHORT).build();
+        TextInput descricao = TextInput.create("embed-desc", "descricao", TextInputStyle.PARAGRAPH).build();
+
+        Modal modal = Modal.create("modal-embed" + corEscolhida, "Configurar Embed")
+                .addComponents(ActionRow.of(titulo), ActionRow.of(descricao))
+                .build();
+
+        event.replyModal(modal).queue();
+    }
+
+    /*@Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if (!event.getName().equals("embed")){
             TextInput titulo = TextInput.create("embed-titulo","titulo", TextInputStyle.SHORT)
@@ -77,9 +94,11 @@ public class EmbedCreate extends ListenerAdapter {
 
             event.replyModal(modal).queue();
         }
+            */
+
 
 
 
 
     }
-}
+
