@@ -5,12 +5,16 @@ import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.CelesteBot.Comandos.ButtonRole;
+import org.CelesteBot.Comandos.EmbedCreate;
 import org.CelesteBot.Comandos.SelectionMenu;
 import org.CelesteBot.Comandos.SetChannel;
 import org.CelesteBot.Eventos.MessageScanner;
@@ -48,17 +52,39 @@ public class CelesteScanBot {
         shardManager.addEventListener(new SetChannel());
         shardManager.addEventListener(new ButtonRole());
         shardManager.addEventListener(new SelectionMenu());
+        shardManager.addEventListener(new EmbedCreate());
 
         //adicionar comandos
-        shardManager.getShards().get(0).upsertCommand("setchannel","Seleciona o canal de reports")
+        shardManager.getShards().getFirst().upsertCommand("setchannel","Seleciona o canal de reports")
                 .addOption(OptionType.CHANNEL,"canal","selecione o canal",true)
                 .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR)).queue();
 
-        shardManager.getShards().get(0).upsertCommand("cargos","Selecionar cargo").queue();
+        shardManager.getShards().getFirst().upsertCommand("cargos","Selecionar cargo").queue();
                 //.addOption(OptionType.CHANNEL,"cargos","Selecione cargo")
                 //.setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR)).queue();
-        shardManager.getShards().get(0).upsertCommand("menu-ticket","Criar o menu de ticket")
+        shardManager.getShards().getFirst().upsertCommand("menu-ticket","Criar o menu de ticket")
                 .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR)).queue();
+
+        OptionData opcaoCores = new OptionData(OptionType.STRING, "cor", "Escolha a cor da borda do embed", true)
+                .addChoice("Roxo", "roxo")
+                .addChoice("Azul", "azul")
+                .addChoice("Vermelho", "vermelho")
+                .addChoice("Verde", "verde")
+                .addChoice("Branco", "branco")
+                .addChoice("Preto", "preto")
+                .addChoice("Cinza", "cinza")
+                .addChoice("Cinza-escuro", "cinza-escuro")
+                .addChoice("Rosa", "rosa")
+                .addChoice("Amarelo", "amarelo")
+                .addChoice("Laranja", "laranja")
+                .addChoice("Ciano", "ciano");
+
+
+        shardManager.getShards().getFirst().upsertCommand(
+                Commands.slash("embed", "Crie seu próprio embed")
+                        .addOptions(opcaoCores)
+        ).queue();
+
 
 
 
