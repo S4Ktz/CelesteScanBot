@@ -10,30 +10,29 @@ import net.dv8tion.jda.api.interactions.components.text.TextInput;
 import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
 import net.dv8tion.jda.api.interactions.modals.Modal;
 import org.jetbrains.annotations.NotNull;
-import org.w3c.dom.Text;
 
 import java.awt.*;
 import java.util.Objects;
 
 public class EmbedCreate extends ListenerAdapter {
 
+    // AGORA ESTE MÉTODO SE TORNOU ÚNICO E SÓ USA O SEU SWITCH!
     @Override
     public void onModalInteraction(@NotNull ModalInteractionEvent event) {
-        if (!event.getModalId().equals("modal-embed")) {
+        if (event.getModalId().startsWith("modal-embed:")) {
 
+            // Extrai a cor do ID (Seja vindo do Menu ou do Slash Command)
             String corEscolhida = event.getModalId().split(":")[1];
 
-            String titulo = Objects.requireNonNull(event.getValue("titulo")).toString();
-            String desc = event.getValue("descricao").toString();
+            String titulo = Objects.requireNonNull(event.getValue("embed-titulo")).getAsString();
+            String desc = Objects.requireNonNull(event.getValue("embed-desc")).getAsString();
 
             EmbedBuilder embedBuilder = new EmbedBuilder();
             embedBuilder.setTitle(titulo);
             embedBuilder.setDescription(desc);
-            embedBuilder.setColor(Color.)
 
 
-            switch (corEscolhida){
-
+            switch (corEscolhida) {
                 case "roxo" -> embedBuilder.setColor(Color.magenta);
                 case "azul" -> embedBuilder.setColor(Color.blue);
                 case "vermelho" -> embedBuilder.setColor(Color.red);
@@ -42,63 +41,55 @@ public class EmbedCreate extends ListenerAdapter {
                 case "preto" -> embedBuilder.setColor(Color.black);
                 case "cinza" -> embedBuilder.setColor(Color.GRAY);
                 case "cinza-escuro" -> embedBuilder.setColor(Color.darkGray);
-                
-
+                case "rosa" -> embedBuilder.setColor(Color.pink);
+                case "amarelo" -> embedBuilder.setColor(Color.yellow);
+                case "laranja" -> embedBuilder.setColor(Color.orange);
+                case "ciano" -> embedBuilder.setColor(Color.cyan);
+                default -> embedBuilder.setColor(Color.white);
             }
+
+            event.replyEmbeds(embedBuilder.build()).queue();
         }
     }
 
     @Override
     public void onStringSelectInteraction(@NotNull StringSelectInteractionEvent event) {
-        if (!event.getComponentId().equals("menu-cores"))
-            return;
+        if (!event.getComponentId().equals("menu-cores")) return;
 
-        String corEscolhida = event.getValues().get(0);
+        String corEscolhida = event.getValues().getFirst();
 
-        TextInput titulo = TextInput.create("embed-titulo", "titulo", TextInputStyle.SHORT).build();
-        TextInput descricao = TextInput.create("embed-desc", "descricao", TextInputStyle.PARAGRAPH).build();
+        TextInput titulo = TextInput.create("embed-titulo", "Título", TextInputStyle.SHORT).build();
+        TextInput descricao = TextInput.create("embed-desc", "Descrição", TextInputStyle.PARAGRAPH).build();
 
-        Modal modal = Modal.create("modal-embed" + corEscolhida, "Configurar Embed")
+        Modal modal = Modal.create("modal-embed:" + corEscolhida, "Configurar Embed")
                 .addComponents(ActionRow.of(titulo), ActionRow.of(descricao))
                 .build();
 
         event.replyModal(modal).queue();
     }
 
-    /*@Override
+    @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
-        if (!event.getName().equals("embed")){
-            TextInput titulo = TextInput.create("embed-titulo","titulo", TextInputStyle.SHORT)
-                    .setPlaceholder("coloque o titulo")
-                    .setRequired(true)
-                    .build();
-
-            TextInput cor = TextInput.create("embed-cor","Cor (Ex:#1234567890)",TextInputStyle.SHORT)
-                    .setPlaceholder("#")
-                    .setRequired(false)
-                    .build();
-
-            TextInput descricao = TextInput.create("embed-desc","descrição",TextInputStyle.PARAGRAPH)
-                    .setPlaceholder("coloque a descrição")
-                    .setRequired(true)
-                    .build();
-
-            TextInput imagem = TextInput.create("embed-imagem","Imagem",TextInputStyle.PARAGRAPH)
-                    .setPlaceholder("Coloque o link da imagem")
-                    .setRequired(false)
-                    .build();
-
-            Modal modal = Modal.create("gerador-embed","criar embed")
-                    .addComponents(ActionRow.of(titulo),ActionRow.of(cor),ActionRow.of(descricao),ActionRow.of(imagem))
-                    .build();
-
-            event.replyModal(modal).queue();
-        }
-            */
+        if (!event.getName().equals("embed")) return;
 
 
+        String corEscolhida = Objects.requireNonNull(event.getOption("cor")).getAsString();
 
+        TextInput titulo = TextInput.create("embed-titulo", "Título", TextInputStyle.SHORT)
+                .setPlaceholder("Coloque o título")
+                .setRequired(true)
+                .build();
 
+        TextInput descricao = TextInput.create("embed-desc", "Descrição", TextInputStyle.PARAGRAPH)
+                .setPlaceholder("Coloque a descrição")
+                .setRequired(true)
+                .build();
 
+        // Enviamos o modal usando o mesmo padrão do menu de seleção!
+        Modal modal = Modal.create("modal-embed:" + corEscolhida, "Criar Embed")
+                .addComponents(ActionRow.of(titulo), ActionRow.of(descricao))
+                .build();
+
+        event.replyModal(modal).queue();
     }
-
+}
